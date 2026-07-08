@@ -1,0 +1,71 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!DOCTYPE xsd:schema [
+<!ATTLIST xsd:simpleType id ID #IMPLIED>
+]>
+
+<xsd:schema
+    xmlns="http://foo.example.org/"
+    xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+    xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+    xmlns:alcamo-schema="tag:rv1971@web.de,2021:alcamo:ns:schema#"
+    targetNamespace="http://foo.example.org/">
+  <xsd:simpleType name="MyString" id="MyString" rdfs:label="My string">
+    <xsd:restriction base="xsd:string"/>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="MyToken" id="MyToken" rdfs:label="My token">
+    <xsd:annotation>
+      <xsd:appinfo>
+        <rdfs:label xml:lang="de">Mein Token</rdfs:label>
+      </xsd:appinfo>
+    </xsd:annotation>
+
+    <xsd:restriction base="xsd:token"/>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="FooBar" id="FooBar" rdfs:label="Foo/bar">
+    <xsd:restriction base="MyToken">
+      <xsd:enumeration value="FOO" rdfs:label="Foo">
+        <xsd:annotation>
+          <xsd:appinfo>
+            <rdfs:label xml:lang="it">il valore "Foo"</rdfs:label>
+          </xsd:appinfo>
+        </xsd:annotation>
+      </xsd:enumeration>
+
+      <xsd:enumeration value="BAR"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="FooBarBazQux" id="FooBarBazQux">
+    <xsd:union memberTypes="FooBar">
+      <xsd:simpleType>
+        <xsd:restriction base="xsd:string">
+          <xsd:enumeration value="BAZ" rdfs:label="Baz"/>
+
+          <xsd:enumeration value="QUX"/>
+        </xsd:restriction>
+      </xsd:simpleType>
+    </xsd:union>
+  </xsd:simpleType>
+
+  <xsd:simpleType
+      name="Quux"
+      id="Quux"
+      rdfs:label="Q.u.u.x."
+      alcamo-schema:enumerationType="QuuxEnumeration">
+    <xsd:restriction base="xsd:hexBinary">
+      <xsd:length value="2"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+
+  <xsd:simpleType name="QuuxEnumeration" id="QuuxEnumeration">
+    <xsd:restriction base="Quux">
+      <xsd:enumeration value="A000" rdfs:label="foo-baz"/>
+      <xsd:enumeration value="4000" rdfs:label="bar"/>
+      <xsd:enumeration value="2000" rdfs:label="baz"/>
+      <xsd:enumeration value="0400" rdfs:label="qux"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:schema>

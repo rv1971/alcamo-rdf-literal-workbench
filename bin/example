@@ -1,0 +1,38 @@
+#!/usr/bin/env php
+<?php
+
+namespace alcamo\rdf_literal_workbench;
+
+use alcamo\rdf_literal\StringLiteral;
+use alcamo\uri\FileUriFactory;
+
+include $_composer_autoload_path ?? __DIR__ . '/../vendor/autoload.php';
+
+$factory = new LiteralFactory();
+
+$factory->getSchema()->addUris(
+    [
+        (new FileUriFactory)->create(
+            dirname(__DIR__) . DIRECTORY_SEPARATOR . 'vendor'
+                . DIRECTORY_SEPARATOR . 'alcamo'
+                . DIRECTORY_SEPARATOR . 'dom'
+                . DIRECTORY_SEPARATOR . 'xsd'
+                . DIRECTORY_SEPARATOR . 'xhtml-datatypes-1.xsd'
+        )
+    ]
+);
+
+$ncNameType =
+    $factory->getSchema()->getGlobalType(LiteralFactory::XH11D_NS . ' Pixels');
+
+$literal1 = $factory->create(1024, $ncNameType);
+
+echo "$literal1: class " . get_class($literal1) . PHP_EOL;
+
+$typeMap = new LiteralTypeMap();
+
+$typeMap->validateLiteral($literal1);
+
+$literal2 = new StringLiteral('foo', LiteralFactory::XSD_NS . '#QName');
+
+$typeMap->validateLiteral($literal2);
