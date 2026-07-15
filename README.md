@@ -58,3 +58,5 @@ Schema as well, can be used to validate whether the datatype of a
 literal is actually supported by the literal class, i.e. derived from
 its defaut type. In the above example, $literal1 is valid while
 $literal2 is not. The literal classes themselves do not check this because they would need an XML schema for this.
+
+See the doxygen documentation for details.
