@@ -8,6 +8,8 @@ use alcamo\rdf_literal\{
     AnyUriLiteral,
     Base64BinaryLiteral,
     BooleanLiteral,
+    ConstructedHexBinaryLiteral,
+    ConstructedStringLiteral,
     DateLiteral,
     DateTimeLiteral,
     DecimalLiteral,
@@ -114,6 +116,22 @@ class LiteralTypeMapTest extends TestCase
                 new GYearLiteral(
                     2027,
                     PositiveGYearLiteral::DEFAULT_DATATYPE_URI
+                )
+            ],
+            [
+                new ConstructedStringLiteral(
+                    [
+                        new StringLiteral('foo'),
+                        new IntegerLiteral(42)
+                    ],
+                    self::XSD_NS . '#token'
+                )
+            ],
+            [
+                new ConstructedHexBinaryLiteral(
+                    [
+                        new HexBinaryLiteral('ABCD')
+                    ]
                 )
             ]
         ];
