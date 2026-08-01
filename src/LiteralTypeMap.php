@@ -4,7 +4,6 @@ namespace alcamo\rdf_literal_workbench;
 
 use alcamo\dom\schema\component\SimpleTypeInterface;
 use alcamo\dom\schema\{Schema, SchemaFactory};
-use alcamo\exception\DataValidationFailed;
 use alcamo\rdf_literal\{
     ConstructedHexBinaryLiteral,
     ConstructedStringLiteral,
@@ -65,21 +64,9 @@ class LiteralTypeMap
     ): SimpleTypeInterface {
         $datatype = $this->createTypeFromUri($literal->getDatatypeUri());
 
-        $defaultDatatypeXName =
-            $this->getDefaultDatatype(get_class($literal))->getXName();
-
-        if (!$datatype->isEqualToOrDerivedFrom($defaultDatatypeXName)) {
-            /** @throw alcamo::exception::DataValidationFailed if the literal
-             *  datatype is not derived from (or equal to) the literal class's
-             *  default datatype. */
-            throw (new DataValidationFailed())->setMessageContext(
-                [
-                    'extraMessage' => "literal datatype {$datatype->getXName()}"
-                        . " not derived from default datatype "
-                        . $defaultDatatypeXName
-                ]
-            );
-        }
+        $datatype->throwUnlessEqualToOrDerivedFrom(
+            $this->getDefaultDatatype(get_class($literal))->getXName()
+        );
 
         return $datatype;
     }

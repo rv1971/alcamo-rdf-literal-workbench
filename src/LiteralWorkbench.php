@@ -29,8 +29,6 @@ class LiteralWorkbench
             . 'xsd' . DIRECTORY_SEPARATOR . 'alcamo.rdf.xsd'
     ];
 
-    private static $mainInstance_; ///< self
-
     public static function newFromFactories(
         LiteralFactory $literalFactory,
         LiteralTypeMap $literalTypeMap
@@ -59,10 +57,11 @@ class LiteralWorkbench
 
     public static function getMainInstance(): self
     {
-        return self::$mainInstance_ ?? (
-            self::$mainInstance_ =
-                static::newFromSchema((new SchemaFactory())->getMainSchema())
-        );
+        static $instance;
+
+        return $instance ??
+            ($instance =
+             self::newFromSchema((new SchemaFactory())->getMainSchema()));
     }
 
     protected $schema_;         ///< Schema
