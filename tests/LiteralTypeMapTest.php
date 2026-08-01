@@ -35,7 +35,7 @@ use alcamo\rdf_literal\{
     StringLiteral,
     TimeLiteral
 };
-use alcamo\exception\DataValidationFailed;
+use alcamo\exception\InvalidType;
 use PHPUnit\Framework\TestCase;
 
 class LiteralTypeMapTest extends TestCase
@@ -148,13 +148,11 @@ class LiteralTypeMapTest extends TestCase
 
     public function testValidateLiteralException(): void
     {
-        $this->expectException(DataValidationFailed::class);
+        $this->expectException(InvalidType::class);
 
         $this->expectExceptionMessage(
-            'Validation failed; literal datatype '
-                . 'http://www.w3.org/2001/XMLSchema integer not derived from '
-                . 'default datatype '
-                . 'http://www.w3.org/2001/XMLSchema nonNegativeInteger'
+            'Invalid type "http://www.w3.org/2001/XMLSchema integer", '
+                . 'expected one of "derived from http://www.w3.org/2001/X..."'
         );
 
         self::$literalTypeMap_->validateLiteral(
