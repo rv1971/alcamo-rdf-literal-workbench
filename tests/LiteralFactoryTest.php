@@ -24,7 +24,7 @@ class LiteralFactoryTest extends TestCase
 
     public static function setUpBeforeClass(): void
     {
-        self::$literalWorkbench_ = new LiteralWorkbench();
+        self::$literalWorkbench_ = LiteralWorkbench::getMainInstance();
 
         self::$literalWorkbench_->getSchema()->addUris(
             [

@@ -57,6 +57,13 @@ class LiteralWorkbench implements NamespaceConstantsInterface
             . 'xsd' . DIRECTORY_SEPARATOR . 'alcamo.rdf.xsd'
     ];
 
+    public static function getMainInstance(): self
+    {
+        static $instance;
+
+        return $instance ?? ($instance = new self());
+    }
+
     protected $schema_;           ///< Schema
 
     private $typeToLiteralClass_; ///< TypeMap
