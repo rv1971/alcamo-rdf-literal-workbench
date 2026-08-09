@@ -42,11 +42,11 @@ class LiteralTypeMapTest extends TestCase
 {
     public const XSD_NS = Schema::XSD_NS;
 
-    private static $literalTypeMap_;
+    private static $literalWorkbench_;
 
     public static function setUpBeforeClass(): void
     {
-        self::$literalTypeMap_ = new LiteralTypeMap();
+        self::$literalWorkbench_ = new LiteralWorkbench();
     }
 
     /**
@@ -58,7 +58,7 @@ class LiteralTypeMapTest extends TestCase
     ): void {
         $this->assertSame(
             $expectedLocalName,
-            self::$literalTypeMap_
+            self::$literalWorkbench_
                 ->getDefaultDatatype($literalClass)
                 ->getXName()
                 ->getLocalName()
@@ -103,7 +103,7 @@ class LiteralTypeMapTest extends TestCase
     {
         $this->assertInstanceOf(
             SimpleTypeInterface::class,
-            self::$literalTypeMap_->validateLiteral($literal)
+            self::$literalWorkbench_->validateLiteral($literal)
         );
     }
 
@@ -143,7 +143,7 @@ class LiteralTypeMapTest extends TestCase
 
         $this->expectExceptionMessage("Class 'foo' not found");
 
-        self::$literalTypeMap_->getDefaultDatatype('foo');
+        self::$literalWorkbench_->getDefaultDatatype('foo');
     }
 
     public function testValidateLiteralException(): void
@@ -155,7 +155,7 @@ class LiteralTypeMapTest extends TestCase
                 . 'expected one of "derived from http://www.w3.org/2001/X..."'
         );
 
-        self::$literalTypeMap_->validateLiteral(
+        self::$literalWorkbench_->validateLiteral(
             new NonNegativeIntegerLiteral(
                 42,
                 IntegerLiteral::DEFAULT_DATATYPE_URI

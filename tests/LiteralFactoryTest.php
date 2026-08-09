@@ -20,13 +20,13 @@ class LiteralFactoryTest extends TestCase
 
     public const FOO_NS = 'http://foo.example.org/';
 
-    private static $literalFactory_;
+    private static $literalWorkbench_;
 
     public static function setUpBeforeClass(): void
     {
-        self::$literalFactory_ = new LiteralFactory();
+        self::$literalWorkbench_ = new LiteralWorkbench();
 
-        self::$literalFactory_->getSchema()->addUris(
+        self::$literalWorkbench_->getSchema()->addUris(
             [
                 (new FileUriFactory())
                     ->create(__DIR__ . DIRECTORY_SEPARATOR . 'foo.xsd')
@@ -42,11 +42,11 @@ class LiteralFactoryTest extends TestCase
         $value,
         $expectedLiteral
     ): void {
-        $schema = self::$literalFactory_->getSchema();
+        $schema = self::$literalWorkbench_->getSchema();
 
         $datatype = $schema->getGlobalType($datatypeXName);
 
-        $literal = self::$literalFactory_->create($value, $datatype);
+        $literal = self::$literalWorkbench_->createLiteral($value, $datatype);
 
         /* The literal objects as a whole are often not the same because their
          * datatype URIs differ: for instance, one refers to
