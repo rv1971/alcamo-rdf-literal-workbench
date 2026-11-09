@@ -57,6 +57,9 @@ class LiteralWorkbench implements NamespaceConstantsInterface
             . 'xsd' . DIRECTORY_SEPARATOR . 'alcamo.rdf.xsd'
     ];
 
+    /// Default class to get a default schema from
+    public const DEFAULT_SCHEMA_FACTORY_CLASS = SchemaFactory::class;
+
     public static function getMainInstance(): self
     {
         static $instance;
@@ -75,7 +78,12 @@ class LiteralWorkbench implements NamespaceConstantsInterface
         ?Schema $schema = null,
         ?RdfLiteralFactory $rdfLiteralFactory = null
     ) {
-        $this->schema_ = $schema ?? (new SchemaFactory())->getMainSchema();
+        if (isset($schema)) {
+            $this->schema_ = $schema;
+        } else {
+            $class = static::DEFAULT_SCHEMA_FACTORY_CLASS;
+            $this->schema_ = $class::getMainInstance()->getMainSchema();
+        }
 
         $fileUriFactory = new FileUriFactory();
 
